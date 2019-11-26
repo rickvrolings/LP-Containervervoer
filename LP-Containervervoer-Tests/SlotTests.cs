@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LP_Containervervoer_Library;
 using LP_Containervervoer_Library.Models;
 using LP_Containervervoer_Library.Models.Interfaces;
+using System;
 
 namespace LP_Containervervoer_Tests
 {
@@ -18,9 +19,9 @@ namespace LP_Containervervoer_Tests
         {
             _containers = new List<ISeaContainer>()
             {
-                new CoolContainer(_defaultMaxTopLoad, _defaultWeight),
-                new StandardContainer(_defaultMaxTopLoad, _defaultWeight),
-                new ValuableContainer(_defaultMaxTopLoad, _defaultWeight)
+                new CoolContainer(_defaultWeight, _defaultMaxTopLoad),
+                new StandardContainer(_defaultWeight, _defaultMaxTopLoad),
+                new ValuableContainer(_defaultWeight, _defaultMaxTopLoad)
             };
         }
 
@@ -94,6 +95,31 @@ namespace LP_Containervervoer_Tests
                 Assert.IsFalse(slot.CanBePlacedAtBottom(_containers[_containers.Count - 1]));
                 Assert.IsFalse(slot.CanBePlacedOnTop(_containers[_containers.Count - 1]));
             });
+        }
+
+        [Test]
+        public void CheckForTopLoadLimit()
+        {
+            //Arrange
+            Random rnd = new Random();
+            int weight = rnd.Next(1, 9999); //some random value, as the function should work with any input.
+            Slot slot = new Slot(99); //write high value to height limit because we assert the top load value in this function.
+            ISeaContainer sContainer1 = new StandardContainer(weight, weight);
+            ISeaContainer sContainer2 = new StandardContainer(weight + 1, weight -1);
+            ISeaContainer sContainer3 = new StandardContainer(weight -1, weight + 1);
+
+            //Act
+            slot.PlaceOnTop(sContainer1);
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(slot.CanBePlacedOnTop(sContainer2));
+                Assert.IsFalse(slot.CanBePlacedAtBottom(sContainer2));
+
+                Assert.IsTrue(slot.CanBePlacedOnTop(sContainer3));
+                Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer3));
+            });            
         }
     }
 }

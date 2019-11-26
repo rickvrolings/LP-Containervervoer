@@ -7,6 +7,7 @@ namespace LP_Containervervoer_App
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            Console.ReadLine();
         }
     }
 }

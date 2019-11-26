@@ -11,7 +11,7 @@ namespace LP_Containervervoer_Library.Models
         public int Weight { get; private set; }
         public bool Placed { get; set; }
 
-        public CoolContainer(int maxTopLoad, int weight)
+        public CoolContainer(int weight, int maxTopLoad)
         {
             MaxTopLoad = maxTopLoad;
             Weight = weight;

@@ -9,7 +9,7 @@ namespace LP_Containervervoer_Library
         public int Weight { get; private set; }
         public bool Placed { get; set; }
 
-        public StandardContainer(int maxTopLoad, int weight)
+        public StandardContainer(int weight, int maxTopLoad)
         {
             MaxTopLoad = maxTopLoad;
             Weight = weight;
