@@ -15,6 +15,7 @@ namespace LP_Containervervoer_Library.Models
 
         public Slot(int height)
         {
+            _seaContainers = new List<ISeacontainer>();
             MaxHeight = height;
         }
 
@@ -36,20 +37,26 @@ namespace LP_Containervervoer_Library.Models
 
         public bool CanBePlacedOnTop(ISeacontainer newContainer)
         {
-            for(int i = 0; i < _seaContainers.Count; i++)
+            if (!CheckHeightLimit())
             {
-                if(newContainer.Weight + CalculateTopLoadFromIndex(i) > _seaContainers[i].MaxTopLoad)
-                {
-                    return false; 
-                }
+                return false;
             }
-            return true;
-            
+            else
+            {
+                for (int i = 0; i < _seaContainers.Count; i++)
+                {
+                    if (newContainer.Weight + CalculateTopLoadFromIndex(i) > _seaContainers[i].MaxTopLoad)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
 
         public bool CanBePlacedAtBottom(ISeacontainer newContainer)
         {
-            return TotalWeight <= newContainer.MaxTopLoad;
+            return TotalWeight <= newContainer.MaxTopLoad && CheckHeightLimit();
         }
 
         private int CalculateTopLoadFromIndex(int index)
@@ -60,6 +67,11 @@ namespace LP_Containervervoer_Library.Models
                 TopLoad += _seaContainers[x].Weight;
             }
             return TopLoad;
+        }
+
+        private bool CheckHeightLimit()
+        {
+            return _seaContainers.Count < MaxHeight;
         }
     }
 }
