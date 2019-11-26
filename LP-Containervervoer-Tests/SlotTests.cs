@@ -1,20 +1,99 @@
-using LP_Containervervoer_Library.Models.Interfaces;
 using NUnit.Framework;
 using System.Collections.Generic;
+using LP_Containervervoer_Library;
+using LP_Containervervoer_Library.Models;
+using LP_Containervervoer_Library.Models.Interfaces;
 
 namespace LP_Containervervoer_Tests
 {
     public class SlotTests
     {
-        List<ISeacontainer> testContainers = new List<ISeacontainer>()
-        {
+        private const int _defaultMaxTopLoad = 120000;
+        private const int _defaultWeight = 30000;
 
-        };
+        List<ISeaContainer> _containers;
+
+        [SetUp]
+        public void ResetContainerList()
+        {
+            _containers = new List<ISeaContainer>()
+            {
+                new CoolContainer(_defaultMaxTopLoad, _defaultWeight),
+                new StandardContainer(_defaultMaxTopLoad, _defaultWeight),
+                new ValuableContainer(_defaultMaxTopLoad, _defaultWeight)
+            };
+        }
+
 
         [Test]
-        public void Test1()
+        public void PlaceOnTop()
         {
-            Assert.Pass();
+            //Arrange
+            Slot slot = new Slot(_containers.Count);
+            //Act
+            for(int i = 0; i < _containers.Count; i++)
+            {
+                slot.PlaceOnTop(_containers[i]);
+            }
+
+            List<ISeaContainer> result = new List<ISeaContainer>(slot.SeaContainers);
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                for(int i = 0; i < _containers.Count; i++)
+                {
+                    Assert.AreEqual(_containers[i], result[i]);
+                }
+            });
+        }
+
+        [Test]
+        public void PlaceAtBottom()
+        {
+            //Arrange
+            Slot slot = new Slot(_containers.Count);
+
+            List<ISeaContainer> expectedResult = new List<ISeaContainer>();
+            for (int i = _containers.Count - 1; i >= 0; i--)
+            {
+                expectedResult.Add(_containers[i]);
+            }
+
+            //Act
+            for (int i = 0; i < _containers.Count; i++)
+            {
+                slot.PlaceAtBottom(_containers[i]);
+            }
+
+            List<ISeaContainer> result = new List<ISeaContainer>(slot.SeaContainers);
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                for (int i = 0; i < _containers.Count; i++)
+                {
+                    Assert.AreEqual(expectedResult[i], result[i]);
+                }
+            });
+        }
+
+        [Test]
+        public void CheckForHeightLimitRestriction()
+        {
+            //Arrange
+            Slot slot = new Slot(_containers.Count - 1);
+            for(int i = 0; i < _containers.Count - 1; i++)
+            {
+                slot.PlaceOnTop(_containers[i]);
+            }
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(slot.CanBePlacedAtBottom(_containers[_containers.Count - 1]));
+                Assert.IsFalse(slot.CanBePlacedOnTop(_containers[_containers.Count - 1]));
+            });
         }
     }
 }

@@ -9,17 +9,18 @@ namespace LP_Containervervoer_Library.Models
     public class Slot // The word "Stack" was taken in C#. A slot is an available place to stack containers.
     {
         public int MaxHeight { get; private set; }
-        private readonly List<ISeacontainer> _seaContainers;
-        public IEnumerable<ISeacontainer> Seacontainers { get { return _seaContainers; } }
         public int TotalWeight => _seaContainers.Sum(c => c.Weight);
+        private readonly List<ISeaContainer> _seaContainers;
+        public IEnumerable<ISeaContainer> SeaContainers { get { return _seaContainers; } }
+        
 
         public Slot(int height)
         {
-            _seaContainers = new List<ISeacontainer>();
+            _seaContainers = new List<ISeaContainer>();
             MaxHeight = height;
         }
 
-        public void PlaceOnTop(ISeacontainer container)
+        public void PlaceOnTop(ISeaContainer container)
         {
             if (CanBePlacedOnTop(container))
             {
@@ -28,7 +29,7 @@ namespace LP_Containervervoer_Library.Models
             }
         }
 
-        public void PlaceAtBottom(ISeacontainer container)
+        public void PlaceAtBottom(ISeaContainer container)
         {
             if (CanBePlacedAtBottom(container))
             {
@@ -38,7 +39,7 @@ namespace LP_Containervervoer_Library.Models
         }
 
 
-        public bool CanBePlacedOnTop(ISeacontainer newContainer)
+        public bool CanBePlacedOnTop(ISeaContainer newContainer)
         {
             if (!CheckHeightLimit())
             {
@@ -57,7 +58,7 @@ namespace LP_Containervervoer_Library.Models
             }
         }
 
-        public bool CanBePlacedAtBottom(ISeacontainer newContainer)
+        public bool CanBePlacedAtBottom(ISeaContainer newContainer)
         {
             return TotalWeight <= newContainer.MaxTopLoad && CheckHeightLimit();
         }

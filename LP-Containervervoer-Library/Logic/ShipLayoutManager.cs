@@ -10,12 +10,16 @@ namespace LP_Containervervoer_Library.Logic
         public int MaxWidth { get; private set; }
         public int MaxLength { get; private set; }
         public int MaxHeight { get; private set; }
-        
-        public ShipLayoutManager(int width, int lenght, int height)
+        public int MaxContainerWeight { get; private set; }
+        public int MinContainerWeight { get; private set; }
+
+        public ShipLayoutManager(int width, int lenght, int height, int maxContainerWeight, int minContainerWeight)
         {
             MaxWidth = width;
             MaxLength = lenght;
             MaxLength = height;
+            MaxContainerWeight = maxContainerWeight;
+            MinContainerWeight = minContainerWeight;
         }
     }
 }
