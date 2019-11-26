@@ -105,8 +105,8 @@ namespace LP_Containervervoer_Tests
             int weight = rnd.Next(1, 9999); //some random value, as the function should work with any input.
             Slot slot = new Slot(99); //write high value to height limit because we assert the top load value in this function.
             ISeaContainer sContainer1 = new StandardContainer(weight, weight);
-            ISeaContainer sContainer2 = new StandardContainer(weight + 1, weight -1);
-            ISeaContainer sContainer3 = new StandardContainer(weight -1, weight + 1);
+            ISeaContainer sContainer2 = new StandardContainer(weight + 1, weight - 1);
+            ISeaContainer sContainer3 = new StandardContainer(weight - 1, weight + 1);
 
             //Act
             slot.PlaceOnTop(sContainer1);
