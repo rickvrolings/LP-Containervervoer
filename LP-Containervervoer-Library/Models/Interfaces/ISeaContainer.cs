@@ -10,6 +10,6 @@ namespace LP_Containervervoer_Library.Models.Interfaces
         int MinWeight { get; }
         int MaxWeight { get; }
         int Weight { get; }
-        bool Placed { get; }
+        bool Placed { get; set; }
     }
 }

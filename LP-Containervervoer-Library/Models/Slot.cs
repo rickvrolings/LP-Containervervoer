@@ -24,6 +24,7 @@ namespace LP_Containervervoer_Library.Models
             if (CanBePlacedOnTop(container))
             {
                 _seaContainers.Add(container);
+                container.Placed = true;
             }
         }
 
@@ -32,8 +33,10 @@ namespace LP_Containervervoer_Library.Models
             if (CanBePlacedAtBottom(container))
             {
                 _seaContainers.Insert(0, container);
+                container.Placed = true;
             }
         }
+
 
         public bool CanBePlacedOnTop(ISeacontainer newContainer)
         {
