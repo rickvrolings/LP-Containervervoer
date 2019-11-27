@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using LP_Containervervoer_Library.Models.Interfaces;
 
 namespace LP_Containervervoer_Library.Models
 {
@@ -41,7 +38,7 @@ namespace LP_Containervervoer_Library.Models
 
         public bool CanBePlacedOnTop(ISeaContainer newContainer)
         {
-            if (!CheckHeightLimit())
+            if (!CheckHeightLimit() || _seaContainers.FindLast(c => c.Type == ContainerType.Valuable) != null)
             {
                 return false;
             }
