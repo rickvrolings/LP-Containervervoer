@@ -15,11 +15,27 @@ namespace LP_Containervervoer_App
         static void Main(string[] args)
         {
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
+            Console.WriteLine(" ");
+
             Ship ship = new Ship(5, 5, 4, 3000000);
-            ship.LoadShip(FillerDataValuabe());
+            DisplayShipInformation(ship);
+
+            Console.WriteLine("Loading Ship...");
+            ship.LoadShip(FillerDataOne());
+
+            Console.WriteLine("Loading complete:");
+            DisplayShipInformation(ship);
             DisplayLayout(ship.Layout);
             DisplayNonPlacedContainers(ship.NotPlacedContainers);
             Console.ReadLine();
+        }
+
+        static void DisplayShipInformation(Ship ship)
+        {
+            Console.WriteLine("Ship information:");
+            Console.WriteLine($"Is Ship Sailable: {ship.Sailable}");
+            Console.WriteLine($"Reason: {ship.Reason}");
+            Console.WriteLine("");
         }
 
         static void DisplayLayout(Slot[][] layout)
@@ -114,13 +130,6 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard)
             };
 
-            int count = 0;
-            foreach(SeaContainer con in returnList)
-            {
-                count++;
-                con.countTest = count;
-            }
-
             return returnList;
         }
 
@@ -160,13 +169,6 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
             };
 
-            int count = 0;
-            foreach (SeaContainer con in returnList)
-            {
-                count++;
-                con.countTest = count;
-            }
-
             return returnList;
         }
 
@@ -200,13 +202,6 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool)
             };
-
-            int count = 0;
-            foreach (SeaContainer con in returnList)
-            {
-                count++;
-                con.countTest = count;
-            }
 
             return returnList;
         }
@@ -342,13 +337,6 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
 
             };
-
-            int count = 0;
-            foreach (SeaContainer con in returnList)
-            {
-                count++;
-                con.countTest = count;
-            }
 
             return returnList;
         }

@@ -2,7 +2,6 @@
 { 
     public class SeaContainer : ISeaContainer
     {
-        public int countTest { get; set; }
         public int MaxTopLoad { get; private set; }
         public int Weight { get; private set; }
         public ContainerType Type { get; private set; }
@@ -18,7 +17,7 @@
 
         public override string ToString()
         {
-            return $"Id: {this.countTest}, Type: {this.Type}. Weight: {this.Weight}. MaxTopLoad: {this.MaxTopLoad}. Placed: {this.Placed}.";
+            return $"Type: {this.Type}. Weight: {this.Weight}. MaxTopLoad: {this.MaxTopLoad}. Placed: {this.Placed}.";
         }
     }
 }

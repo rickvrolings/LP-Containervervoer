@@ -18,6 +18,7 @@ namespace LP_Containervervoer_Library
 
         public int LeftSideWeight { get { return GetWeightFromCollection(_left); } }
         public int RightSideWeight { get { return GetWeightFromCollection(_right); } }
+        public int TotalWeight { get { return GetWeightFromCollection(Layout); } }
         public int MiddleWeight { get { return _middle.Sum(c => c.TotalWeight); } }
         public Slot[][] Layout { get { return GetCombinedLayout(); } }
 
