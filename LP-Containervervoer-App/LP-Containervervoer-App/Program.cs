@@ -16,7 +16,7 @@ namespace LP_Containervervoer_App
         {
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
             Ship ship = new Ship(5, 5, 4, 3000000);
-            ship.LoadShip(FillerDataOne());
+            ship.LoadShip(FillerDataValuabe());
             DisplayLayout(ship.Layout);
             DisplayNonPlacedContainers(ship.NotPlacedContainers);
             Console.ReadLine();
@@ -28,7 +28,7 @@ namespace LP_Containervervoer_App
             {
                 for (int y = 0; y < layout[x].Length; y++)
                 {
-                    Console.WriteLine("Slot postition: " + x.ToString() + ", " + y.ToString());
+                    Console.WriteLine("Slot postition: " + x.ToString() + ", " + y.ToString() + $" , relative: {layout[x][y].RelativeSlotXPostion}, {layout[x][y].RelativeSlotYPosition}");
                     for (int c = layout[x][y].SeaContainers.Count() - 1; c >= 0; c--)
                     {
                         Console.WriteLine(layout[x][y].SeaContainers.ToList()[c]);
@@ -116,6 +116,235 @@ namespace LP_Containervervoer_App
 
             int count = 0;
             foreach(SeaContainer con in returnList)
+            {
+                count++;
+                con.countTest = count;
+            }
+
+            return returnList;
+        }
+
+        static List<ISeaContainer> FillerDataValuabe()
+        {
+            List<ISeaContainer> returnList = new List<ISeaContainer>()
+            {
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Valuable),
+            };
+
+            int count = 0;
+            foreach (SeaContainer con in returnList)
+            {
+                count++;
+                con.countTest = count;
+            }
+
+            return returnList;
+        }
+
+        static List<ISeaContainer> FillerDataCool()
+        {
+            List<ISeaContainer> returnList = new List<ISeaContainer>()
+            {
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool)
+            };
+
+            int count = 0;
+            foreach (SeaContainer con in returnList)
+            {
+                count++;
+                con.countTest = count;
+            }
+
+            return returnList;
+        }
+
+        static List<ISeaContainer> FillerDataStandard()
+        {
+            List<ISeaContainer> returnList = new List<ISeaContainer>()
+            {
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+
+            };
+
+            int count = 0;
+            foreach (SeaContainer con in returnList)
             {
                 count++;
                 con.countTest = count;

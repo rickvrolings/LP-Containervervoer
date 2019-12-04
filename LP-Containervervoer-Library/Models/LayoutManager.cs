@@ -93,7 +93,7 @@ namespace LP_Containervervoer_Library
             }
             else if(container.Type == ContainerType.Valuable)
             {
-                return slot.SeaContainers.Count() == 0 && CheckForAdjecentContainersPlaceAtBottom(slot);
+                return slot.SeaContainers.Count() == 0 && !CheckForAdjecentContainersPlaceAtBottom(slot);
             }
             else
             {
