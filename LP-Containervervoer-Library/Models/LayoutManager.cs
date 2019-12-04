@@ -36,36 +36,53 @@ namespace LP_Containervervoer_Library
 
         public void GenerateLayout(List<ISeaContainer> containers)
         {
-            foreach (ISeaContainer container in containers)
+            foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
             {
-                if (_middle != null)
-                {
-                    TryAddContainerToMiddle(container);
-                }
+                TryAddContainer(container);
+            }
+        }
 
-                TryAddContainerToSide(container, GetSideWithLeastWeight());
-                
-                if (!container.Placed)
-                {
-                    _notPlacedContainers.Add(container);
-                }
+        private void TryAddContainer(ISeaContainer container)
+        {
+            if (_middle != null)
+            {
+                TryAddContainerToMiddle(container);
+            }
+
+            TryAddContainerToSide(container, GetSideWithLeastWeight());
+
+            if (!container.Placed)
+            {
+                _notPlacedContainers.Add(container);
             }
         }
 
         private void TryAddContainerToMiddle(ISeaContainer container)
         {
-            if (!container.Placed)
+            TryAddContainerToEachSlotInCollection(container, _middle);
+        }
+
+        private void TryAddContainerToSide(ISeaContainer container, Slot[][] side)
+        {
+            foreach (Slot[] slotArray in side)
             {
-                foreach (Slot slot in _middle)
-                {                    
-                    if (slot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(slot) && CheckForSpecialRulesPlaceAtBottom(container, slot))
+                TryAddContainerToEachSlotInCollection(container, slotArray);
+            }
+        }
+
+        private void TryAddContainerToEachSlotInCollection(ISeaContainer container, Slot[] colomn)
+        {
+            if (container.Placed == false)
+            {
+                foreach (Slot indivudualSlot in colomn)
+                {
+                    if (indivudualSlot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(indivudualSlot) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot))
                     {
-                        slot.PlaceAtBottom(container);
+                        indivudualSlot.PlaceAtBottom(container);
                         break;
                     }
                 }
             }
-            
         }
 
         private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer container, Slot slot)
@@ -139,25 +156,7 @@ namespace LP_Containervervoer_Library
             return currentSlot.RelativeSlotYPosition == 0;
         }
 
-        private void TryAddContainerToSide(ISeaContainer container, Slot[][] side)
-        {
-            
-            foreach (Slot[] slotArray in side)
-            {
-                if (!container.Placed)
-                {
-                    foreach (Slot indivudualSlot in slotArray)
-                    {
-                        if (indivudualSlot.CanBePlacedAtBottom(container))
-                        {
-                            indivudualSlot.PlaceAtBottom(container);
-                            break;
-                        }
-                    }
-                }
-            }
-            
-        }
+
             
 
         private Slot[][] GetSideWithLeastWeight()
