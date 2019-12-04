@@ -1,5 +1,5 @@
-﻿namespace LP_Containervervoer_Library.Models
-{
+﻿namespace LP_Containervervoer_Library 
+{ 
     public class SeaContainer : ISeaContainer
     {
         public int MaxTopLoad { get; private set; }
@@ -13,6 +13,11 @@
             MaxTopLoad = maxTopLoad;
             Type = type;
             Placed = false;
+        }
+
+        public override string ToString()
+        {
+            return $"Type: {this.Type}. Weight: {this.Weight}. MaxTopLoad: {this.MaxTopLoad}. Placed: {this.Placed}.";
         }
     }
 }

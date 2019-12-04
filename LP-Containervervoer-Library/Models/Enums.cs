@@ -1,4 +1,4 @@
-﻿namespace LP_Containervervoer_Library.Models
+﻿namespace LP_Containervervoer_Library
 {
     public enum ContainerType
     {
