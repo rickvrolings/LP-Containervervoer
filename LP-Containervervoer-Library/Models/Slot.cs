@@ -20,6 +20,7 @@ namespace LP_Containervervoer_Library
             MaxHeight = height;
         }
 
+        // ----- Function below is outdated ----
         //public void PlaceOnTop(ISeaContainer container)
         //{
         //    if (CanBePlacedOnTop(container))

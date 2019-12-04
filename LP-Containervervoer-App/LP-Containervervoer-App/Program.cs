@@ -50,7 +50,7 @@ namespace LP_Containervervoer_App
 
         static List<ISeaContainer> FillerDataOne()
         {
-            return new List<ISeaContainer>()
+            List<ISeaContainer> returnList = new List<ISeaContainer>()
             {
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
@@ -113,6 +113,15 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard)
             };
+
+            int count = 0;
+            foreach(SeaContainer con in returnList)
+            {
+                count++;
+                con.countTest = count;
+            }
+
+            return returnList;
         }
 
     }

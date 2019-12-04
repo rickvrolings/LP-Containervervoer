@@ -57,10 +57,8 @@ namespace LP_Containervervoer_Library
             if (!container.Placed)
             {
                 foreach (Slot slot in _middle)
-                {
-                    Slot slotInFront = _middle[slot.RelativeSlotYPosition - 1];
-                    Slot slotBehind = _middle[slot.RelativeSlotYPosition + 1];
-                    if (slot.CanBePlacedAtBottom(container) && CheckForSpecialRulesPlaceAtBottom(container, slot, slotInFront, slotBehind))
+                {                    
+                    if (slot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(slot) && CheckForSpecialRulesPlaceAtBottom(container, slot))
                     {
                         slot.PlaceAtBottom(container);
                         break;
@@ -70,49 +68,70 @@ namespace LP_Containervervoer_Library
             
         }
 
-        private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer newContainer, Slot currentSlot, Slot slotInFrontOfThis, Slot slotBehindThis)
+        private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer container, Slot slot)
         {
-            if (newContainer.Type == ContainerType.Cool)
+            if(container.Type == ContainerType.Cool)
             {
-                //Cool containers may only be placed at front row.
-                return IsSlotFrontRow(currentSlot);
+                return IsSlotFrontRow(slot); //Cool container can only be placed at front row
             }
-            else if (newContainer.Type == ContainerType.Valuable)
+            else if(container.Type == ContainerType.Valuable)
             {
-                //there can only be one valuable per slot and it has to be on top.
-                return (currentSlot.SeaContainers.Count() == 0) && CheckIfContainersAreInAdjecentSlots(slotInFrontOfThis, slotBehindThis);
+                return slot.SeaContainers.Count() == 0 && CheckForAdjecentContainersPlaceAtBottom(slot);
             }
-            else if (newContainer.Type == ContainerType.Standard)
+            else
             {
-                CheckifContainerWillBlockValuable(currentSlot, slotInFrontOfThis, slotBehindThis);
+                return true;
             }
 
-            return true;
         }
 
-        private bool CheckifContainerWillBlockValuable(Slot currentSlot, Slot slotInFrontOfThis, Slot slotBehindThis)
+        private bool CheckForAdjecentContainersPlaceAtBottom(Slot slot)
+        {
+            bool anyAdjecent = false;
+            if (slot.RelativeSlotYPosition > 0)
+            {
+                if(Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition - 1].SeaContainers.Count() > 0)
+                {
+                    anyAdjecent = true;
+                }
+            }
+
+            if (slot.RelativeSlotYPosition < Length - 2)
+            {
+                if (Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition + 1].SeaContainers.Count() > 0)
+                {
+                    anyAdjecent = true;
+                }
+            }
+            return anyAdjecent;
+        }
+        private bool CheckIfContainerWillBlockValuable(Slot currentSlot)
         {
             bool frontSave = true;
             bool backSave = true;
 
-            if (slotInFrontOfThis.SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+            if(currentSlot.RelativeSlotYPosition > 0)
             {
-                int indexValuableFrontSlot = slotInFrontOfThis.SeaContainers.ToList().IndexOf(slotInFrontOfThis.SeaContainers.First(c => c.Type == ContainerType.Valuable));
-                frontSave = indexValuableFrontSlot < currentSlot.SeaContainers.Count();
+                frontSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition - 1]);
             }
 
-            if (slotBehindThis.SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+            if (currentSlot.RelativeSlotYPosition < Length - 2)
             {
-                int indexValuableBackSlot = slotBehindThis.SeaContainers.ToList().IndexOf(slotBehindThis.SeaContainers.First(c => c.Type == ContainerType.Valuable));
-                backSave = indexValuableBackSlot < currentSlot.SeaContainers.Count();
+                backSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition + 1]);
             }
 
-            return frontSave && backSave;
+            return frontSave && backSave ; 
+               
         }
 
-        private bool CheckIfContainersAreInAdjecentSlots(Slot slotInFrontOfthis, Slot slotBehindThis)
+        private bool CompareTwoSlotsIfValuableWillBeBlocked(Slot currentSlot, Slot otherSlot)
         {
-            return (slotInFrontOfthis == null || slotInFrontOfthis.SeaContainers.Count() > 0) && (slotBehindThis == null || slotBehindThis.SeaContainers.Count() > 0);
+            if (otherSlot.SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+            {
+                int indexValuable = otherSlot.SeaContainers.ToList().IndexOf(otherSlot.SeaContainers.First(c => c.Type == ContainerType.Valuable));
+                return indexValuable > currentSlot.SeaContainers.Count();
+            }
+            return true;
         }
 
         private bool IsSlotFrontRow(Slot currentSlot)
@@ -122,23 +141,24 @@ namespace LP_Containervervoer_Library
 
         private void TryAddContainerToSide(ISeaContainer container, Slot[][] side)
         {
+            
             foreach (Slot[] slotArray in side)
             {
-                if(container.Placed)
+                if (!container.Placed)
                 {
-                    break;
-                }
-
-                foreach (Slot indivudualSlot in slotArray)
-                {
-                    if (indivudualSlot.CanBePlacedAtBottom(container))
+                    foreach (Slot indivudualSlot in slotArray)
                     {
-                        indivudualSlot.PlaceAtBottom(container);
-                        break;
+                        if (indivudualSlot.CanBePlacedAtBottom(container))
+                        {
+                            indivudualSlot.PlaceAtBottom(container);
+                            break;
+                        }
                     }
                 }
             }
+            
         }
+            
 
         private Slot[][] GetSideWithLeastWeight()
         {
