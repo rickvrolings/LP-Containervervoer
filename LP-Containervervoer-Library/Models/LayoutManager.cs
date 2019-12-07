@@ -17,9 +17,10 @@ namespace LP_Containervervoer_Library
         public IEnumerable<ISeaContainer> NotPlacedContainers { get { return _notPlacedContainers; } }
 
         public int LeftSideWeight { get { return GetWeightFromCollection(_left); } }
+        public int MiddleWeight { get { return _middle.Sum(c => c.TotalWeight); } }
+
         public int RightSideWeight { get { return GetWeightFromCollection(_right); } }
         public int TotalWeight { get { return GetWeightFromCollection(Layout); } }
-        public int MiddleWeight { get { return _middle.Sum(c => c.TotalWeight); } }
         public Slot[][] Layout { get { return GetCombinedLayout(); } }
 
         Slot[][] _left;
@@ -133,7 +134,7 @@ namespace LP_Containervervoer_Library
                 frontSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition - 1]);
             }
 
-            if (currentSlot.RelativeSlotYPosition < Length - 2)
+            if (currentSlot.RelativeSlotYPosition < Length - 1)
             {
                 backSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition + 1]);
             }
@@ -156,9 +157,6 @@ namespace LP_Containervervoer_Library
         {
             return currentSlot.RelativeSlotYPosition == 0;
         }
-
-
-            
 
         private Slot[][] GetSideWithLeastWeight()
         {

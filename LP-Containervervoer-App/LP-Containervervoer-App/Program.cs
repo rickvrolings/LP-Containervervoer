@@ -42,6 +42,7 @@ namespace LP_Containervervoer_App
         {;
             for (int x = 0; x < layout.Length; x++)
             {
+                Console.WriteLine("---------------------------------------");
                 for (int y = 0; y < layout[x].Length; y++)
                 {
                     Console.WriteLine("Slot postition: " + x.ToString() + ", " + y.ToString() + $" , relative: {layout[x][y].RelativeSlotXPostion}, {layout[x][y].RelativeSlotYPosition}");
@@ -91,6 +92,7 @@ namespace LP_Containervervoer_App
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),
                 new SeaContainer(_defaultWeight, _defaultTopLoad, ContainerType.Cool),

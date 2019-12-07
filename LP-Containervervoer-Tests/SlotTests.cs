@@ -22,36 +22,12 @@ namespace LP_Containervervoer_Tests
                 new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Standard)
             };
         }
-
-
-        [Test]
-        public void PlaceOnTop()
-        {
-            //Arrange
-            Slot slot = new Slot(_containersStandard.Count);
-            //Act
-            for (int i = 0; i < _containersStandard.Count; i++)
-            {
-                slot.PlaceOnTop(_containersStandard[i]);
-            }
-
-            List<ISeaContainer> result = new List<ISeaContainer>(slot.SeaContainers);
-
-            //Assert
-            Assert.Multiple(() =>
-            {
-                for (int i = 0; i < _containersStandard.Count; i++)
-                {
-                    Assert.AreEqual(_containersStandard[i], result[i]);
-                }
-            });
-        }
-
+        
         [Test]
         public void PlaceAtBottom()
         {
             //Arrange
-            Slot slot = new Slot(_containersStandard.Count);
+            Slot slot = new Slot(_containersStandard.Count, 0, 0);
 
             List<ISeaContainer> expectedResult = new List<ISeaContainer>();
             for (int i = _containersStandard.Count - 1; i >= 0; i--)
@@ -81,17 +57,16 @@ namespace LP_Containervervoer_Tests
         public void CheckForHeightLimitRestriction()
         {
             //Arrange
-            Slot slot = new Slot(_containersStandard.Count - 1);
+            Slot slot = new Slot(_containersStandard.Count - 1, 0 ,0);
             for (int i = 0; i < _containersStandard.Count - 1; i++)
             {
-                slot.PlaceOnTop(_containersStandard[i]);
+                slot.PlaceAtBottom(_containersStandard[i]);
             }
 
             //Assert
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(slot.CanBePlacedAtBottom(_containersStandard[_containersStandard.Count - 1]));
-                Assert.IsFalse(slot.CanBePlacedOnTop(_containersStandard[_containersStandard.Count - 1]));
             });
         }
 
@@ -100,22 +75,22 @@ namespace LP_Containervervoer_Tests
         {
             //Arrange
             Random rnd = new Random();
-            int weight = rnd.Next(1, 9999); //some random value, as the function should work with any input.
-            Slot slot = new Slot(99); //write high value to height limit because we assert the top load value in this function.
+            int weight = 1; 
+            Slot slot = new Slot(99, 0, 0); //write high value to height limit because we assert the top load value in this function.
             ISeaContainer sContainer1 = new SeaContainer(weight, weight, ContainerType.Standard);
-            ISeaContainer sContainer2 = new SeaContainer(weight + 1, weight - 1, ContainerType.Standard);
-            ISeaContainer sContainer3 = new SeaContainer(weight - 1, weight + 1, ContainerType.Standard);
+            ISeaContainer sContainer2 = new SeaContainer(weight, weight - 1, ContainerType.Standard);
+            ISeaContainer sContainer3 = new SeaContainer(weight, weight + 1, ContainerType.Standard);
 
             //Act
-            slot.PlaceOnTop(sContainer1);
+            slot.PlaceAtBottom(sContainer1);
 
             //Assert
             Assert.Multiple(() =>
             {
-                Assert.IsFalse(slot.CanBePlacedOnTop(sContainer2));
+                Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer1));
+
                 Assert.IsFalse(slot.CanBePlacedAtBottom(sContainer2));
 
-                Assert.IsTrue(slot.CanBePlacedOnTop(sContainer3));
                 Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer3));
             });
 
@@ -126,9 +101,9 @@ namespace LP_Containervervoer_Tests
         {
             //Arrange
             int weight = 1000;
-            Slot slot = new Slot(3);
+            Slot slot = new Slot(3, 0, 0);
             slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
-            slot.PlaceOnTop(new SeaContainer(weight, weight * 3, ContainerType.Standard));
+            slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
             slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
 
             //Act
