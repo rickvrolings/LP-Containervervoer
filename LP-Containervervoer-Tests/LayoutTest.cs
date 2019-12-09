@@ -26,7 +26,7 @@ namespace LP_Containervervoer_Tests
         }
 
         [Test]
-        public void OneWidth()
+        public void OneWidthInstantiate()
         {
             int width = 1;
             int height = 1;
@@ -42,15 +42,56 @@ namespace LP_Containervervoer_Tests
         }
 
         [Test]
-        public void GenerateLayout()
+        public void OneByOnePlaceAContainer()
         {
-            int length = 1;
-            int width = 1;
-            int height = 1;
-            LayoutManager layout = new LayoutManager(length, width, height);
+            //Arrange
+            int weight = 1;
+            int width = 1; 
+            int lenght = 1;
+            int height = 1; 
+            Ship ship = new Ship(1, 1, weight, weight);
+            ISeaContainer con = new SeaContainer(weight, weight, ContainerType.Standard);
+            LayoutManager layMan = new LayoutManager(lenght, width, height);
 
-            layout.GenerateLayout();
+            //Act
+            layMan.GenerateLayout(new List<ISeaContainer>() { con });
+
+            //Assert
+            Assert.IsTrue(con.Placed);
         }
+
+        //[Test]
+        //public void ThreeValuablesCanNotBePlaced()
+        //{
+        //    //Arrange
+        //    int length = 3;
+        //    int width = 1;
+        //    int height = 1;
+        //    List<ISeaContainer> threeValuables = new List<ISeaContainer>() // one shoud not be able to be placed, because they can't be blocked from the front or the back. 
+        //    {
+        //        new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Valuable),
+        //        new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Valuable),
+        //        new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Valuable)
+        //    };
+        //    LayoutManager layout = new LayoutManager(length, width, height);
+
+        //    //Act
+        //    layout.GenerateLayout(threeValuables);
+        //    int expectedNumberPlaced = threeValuables.Count - 1;
+        //    int numerberPlaced = 0;
+
+        //    foreach(ISeaContainer con in threeValuables)
+        //    {
+        //        if (con.Placed)
+        //        {
+        //            numerberPlaced++;
+        //        }
+        //    }
+        //    //Assert
+        //    Assert.AreEqual(expectedNumberPlaced, numerberPlaced);
+
+
+        //}
 
         
     }

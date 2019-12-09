@@ -5,9 +5,7 @@ using System.Text;
 namespace LP_Containervervoer_Library
 {
     public class Ship
-    {
-        public int TotalMaxContainerWeight { get; private set; }
-        public int TotalMinContainerWeight { get { return TotalMaxContainerWeight / 2; } }
+    {        
         public bool Sailable { get; private set; }
         public string Reason { get; private set; }
         public Slot[][] Layout { get { return _layoutManager.Layout; } }
@@ -15,8 +13,7 @@ namespace LP_Containervervoer_Library
 
         public Ship(int width, int lenght, int height, int totalMaxContainerWeight)
         {
-            _layoutManager = new LayoutManager(lenght, width, height);
-            TotalMaxContainerWeight = totalMaxContainerWeight;
+            _layoutManager = new LayoutManager(lenght, width, height, totalMaxContainerWeight);
             Sailable = false;
             Reason = "Ship not loaded yet";
         }
@@ -40,7 +37,7 @@ namespace LP_Containervervoer_Library
                 reasonBuilder += "Ship not in balance"; 
             }
 
-            if(_layoutManager.TotalWeight < TotalMinContainerWeight)
+            if(_layoutManager.TotalWeight < _layoutManager.TotalMinLoad)
             {
                 if(Sailable = false)
                 {
@@ -50,7 +47,7 @@ namespace LP_Containervervoer_Library
                 reasonBuilder += "Total weight of placed containers is lower than minimum needed Weight";
             }
 
-            if(_layoutManager.TotalWeight > TotalMaxContainerWeight)
+            if(_layoutManager.TotalWeight > _layoutManager.TotalMaxLoad)
             {
                 if (Sailable = false)
                 {

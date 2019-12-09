@@ -11,6 +11,10 @@ namespace LP_Containervervoer_Library
         public int Length { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+
+        public int TotalMaxLoad{ get; private set; }
+        public int TotalMinLoad { get { return TotalMaxLoad / 2; } }
+
         public bool EvenWidth { get; private set; }
 
         private List<ISeaContainer> _notPlacedContainers = new List<ISeaContainer>();
@@ -18,45 +22,57 @@ namespace LP_Containervervoer_Library
 
         public int LeftSideWeight { get { return GetWeightFromCollection(_left); } }
         public int MiddleWeight { get { return _middle.Sum(c => c.TotalWeight); } }
-
         public int RightSideWeight { get { return GetWeightFromCollection(_right); } }
         public int TotalWeight { get { return GetWeightFromCollection(Layout); } }
+
         public Slot[][] Layout { get { return GetCombinedLayout(); } }
 
         Slot[][] _left;
         Slot[][] _right;
         Slot[] _middle;
 
-        public LayoutManager(int length, int width, int height)
+        public LayoutManager(int length, int width, int height, int maxWeight)
         {
             Length = length;
             Width = width;
             Height = height;
             EvenWidth = width % 2 == 0;
+            TotalMaxLoad = maxWeight;
             SetSlotsPlaces(EvenWidth);
         }
 
         public void GenerateLayout(List<ISeaContainer> containers)
         {
-            foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
+            if(Width >= 0)
             {
-                TryAddContainer(container);
+                foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
+                {
+                    if(TotalWeight + container.Weight <= TotalMaxLoad)
+                    {
+                        TryAddContainer(container);
+                    }
+
+                    if (!container.Placed)
+                    {
+                        _notPlacedContainers.Add(container);
+                    } 
+                }
             }
+            
         }
 
         private void TryAddContainer(ISeaContainer container)
         {
-            if (_middle != null)
+            if (!EvenWidth)
             {
                 TryAddContainerToMiddle(container);
             }
 
-            TryAddContainerToSide(container, GetSideWithLeastWeight());
-
-            if (!container.Placed)
+            if (Width > 1)
             {
-                _notPlacedContainers.Add(container);
+                TryAddContainerToSide(container, GetSideWithLeastWeight());
             }
+                        
         }
 
         private void TryAddContainerToMiddle(ISeaContainer container)
@@ -101,7 +117,6 @@ namespace LP_Containervervoer_Library
             {
                 return true;
             }
-
         }
 
         private bool CheckForAdjecentContainersPlaceAtBottom(Slot slot)
@@ -184,15 +199,23 @@ namespace LP_Containervervoer_Library
 
         private int GetWeightFromCollection(Slot[][] side)
         {
-            int returnWeight = 0;
-            foreach (Slot[] slotArray in side)
+            if(side != null)
             {
-                foreach (Slot slot in slotArray)
+                int returnWeight = 0;
+                foreach (Slot[] slotArray in side)
                 {
-                    returnWeight += slot.TotalWeight;
+                    foreach (Slot slot in slotArray)
+                    {
+                        returnWeight += slot.TotalWeight;
+                    }
                 }
+                return returnWeight;
             }
-            return returnWeight;
+            else
+            {
+                return 0;
+            }
+            
         }
 
         private Slot[][] CombineLayouts(bool even)
