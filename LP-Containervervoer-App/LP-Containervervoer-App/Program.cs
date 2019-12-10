@@ -21,7 +21,10 @@ namespace LP_Containervervoer_App
             Console.WriteLine("Loading Ship...");
             ship.LoadShip(FillerDataOne());
             Console.WriteLine("Loading complete:");
+            DisplayShipInformation(ship);
+
             DisplayLayoutFromList(ship.Layout);
+            DisplayNonPlacedContainers(ship.NotPlacedContainers);
 
             Console.ReadLine();
         }
@@ -39,20 +42,8 @@ namespace LP_Containervervoer_App
                     Console.WriteLine(containers[i]);
                 }
             }
+            Console.WriteLine("");
         }
-
-        // old stuf
-        //Console.WriteLine(" ");
-
-        //    Ship ship = new Ship(1, 5);
-        //DisplayShipInformation(ship);
-        //Console.WriteLine("Loading Ship...");
-        //    ship.LoadShip(FillerDataOne());
-
-        //    Console.WriteLine("Loading complete:");
-        //    DisplayShipInformation(ship);
-        //DisplayLayout(ship.Layout);
-        //DisplayNonPlacedContainers(ship.NotPlacedContainers);
 
         static void DisplayShipInformation(Ship ship)
         {
@@ -60,23 +51,6 @@ namespace LP_Containervervoer_App
             Console.WriteLine($"Is Ship Sailable: {ship.Sailable}");
             Console.WriteLine($"Reason: {ship.Reason}");
             Console.WriteLine("");
-        }
-
-        static void DisplayLayout(Slot[][] layout)
-        {
-            for (int x = 0; x < layout.Length; x++)
-            {
-                Console.WriteLine("---------------------------------------");
-                for (int y = 0; y < layout[x].Length; y++)
-                {
-                    Console.WriteLine("Slot postition: " + x.ToString() + ", " + y.ToString() + $" , relative: {layout[x][y].RelativeSlotXPostion}, {layout[x][y].RelativeSlotYPosition}");
-                    for (int c = layout[x][y].SeaContainers.Count() - 1; c >= 0; c--)
-                    {
-                        Console.WriteLine(layout[x][y].SeaContainers.ToList()[c]);
-                    }
-                    Console.WriteLine("");
-                }
-            }
         }
 
         static void DisplayNonPlacedContainers(IEnumerable<ISeaContainer> nonContainers)
@@ -158,214 +132,5 @@ namespace LP_Containervervoer_App
 
             return returnList;
         }
-
-        static List<ISeaContainer> FillerDataValuabe()
-        {
-            List<ISeaContainer> returnList = new List<ISeaContainer>()
-            {
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-                new SeaContainer(_defaultWeight, ContainerType.Valuable),
-            };
-
-            return returnList;
-        }
-
-        static List<ISeaContainer> FillerDataCool()
-        {
-            List<ISeaContainer> returnList = new List<ISeaContainer>()
-            {
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool),
-                new SeaContainer(_defaultWeight, ContainerType.Cool)
-            };
-
-            return returnList;
-        }
-
-        static List<ISeaContainer> FillerDataStandard()
-        {
-            List<ISeaContainer> returnList = new List<ISeaContainer>()
-            {
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, ContainerType.Standard),
-
-            };
-
-            return returnList;
-        }
-
     }
 }
