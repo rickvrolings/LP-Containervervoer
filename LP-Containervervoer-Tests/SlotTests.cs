@@ -7,7 +7,6 @@ namespace LP_Containervervoer_Tests
 {
     public class SlotTests
     {
-        private const int _defaultMaxTopLoad = 120000;
         private const int _defaultWeight = 30000;
 
         List<ISeaContainer> _containersStandard;
@@ -17,9 +16,9 @@ namespace LP_Containervervoer_Tests
         {
             _containersStandard = new List<ISeaContainer>()
             {
-                new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Standard),
-                new SeaContainer(_defaultWeight, _defaultMaxTopLoad, ContainerType.Standard)
+                new SeaContainer(_defaultWeight, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, ContainerType.Standard),
+                new SeaContainer(_defaultWeight, ContainerType.Standard)
             };
         }
         
@@ -27,7 +26,7 @@ namespace LP_Containervervoer_Tests
         public void PlaceAtBottom()
         {
             //Arrange
-            Slot slot = new Slot(_containersStandard.Count, 0, 0);
+            Slot slot = new Slot(0, 0);
 
             List<ISeaContainer> expectedResult = new List<ISeaContainer>();
             for (int i = _containersStandard.Count - 1; i >= 0; i--)
@@ -54,44 +53,31 @@ namespace LP_Containervervoer_Tests
         }
 
         [Test]
-        public void CheckForHeightLimitRestriction()
-        {
-            //Arrange
-            Slot slot = new Slot(_containersStandard.Count - 1, 0 ,0);
-            for (int i = 0; i < _containersStandard.Count - 1; i++)
-            {
-                slot.PlaceAtBottom(_containersStandard[i]);
-            }
-
-            //Assert
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(slot.CanBePlacedAtBottom(_containersStandard[_containersStandard.Count - 1]));
-            });
-        }
-
-        [Test]
         public void CheckForTopLoadLimit()
         {
             //Arrange
-            Random rnd = new Random();
-            int weight = 1; 
-            Slot slot = new Slot(99, 0, 0); //write high value to height limit because we assert the top load value in this function.
-            ISeaContainer sContainer1 = new SeaContainer(weight, weight, ContainerType.Standard);
-            ISeaContainer sContainer2 = new SeaContainer(weight, weight - 1, ContainerType.Standard);
-            ISeaContainer sContainer3 = new SeaContainer(weight, weight + 1, ContainerType.Standard);
+            Slot slot = new Slot(0, 0); //write high value to height limit because we assert the top load value in this function.
+            ISeaContainer sContainer1 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+            ISeaContainer sContainer2 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+            ISeaContainer sContainer3 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+            ISeaContainer sContainer4 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+            ISeaContainer sContainer5 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+            ISeaContainer sContainer6 = new SeaContainer(_defaultWeight, ContainerType.Standard);
+
+
 
             //Act
             slot.PlaceAtBottom(sContainer1);
+            slot.PlaceAtBottom(sContainer2);
+            slot.PlaceAtBottom(sContainer3);
+            slot.PlaceAtBottom(sContainer4);
 
             //Assert
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer1));
-
-                Assert.IsFalse(slot.CanBePlacedAtBottom(sContainer2));
-
-                Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer3));
+                Assert.IsTrue(slot.CanBePlacedAtBottom(sContainer5));
+                slot.PlaceAtBottom(sContainer5);
+                Assert.IsFalse(slot.CanBePlacedAtBottom(sContainer6));
             });
 
         }
@@ -100,15 +86,14 @@ namespace LP_Containervervoer_Tests
         public void TotalWeight()
         {
             //Arrange
-            int weight = 1000;
-            Slot slot = new Slot(3, 0, 0);
-            slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
-            slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
-            slot.PlaceAtBottom(new SeaContainer(weight, weight * 3, ContainerType.Standard));
+            Slot slot = new Slot(0, 0);
+            slot.PlaceAtBottom(new SeaContainer(_defaultWeight, ContainerType.Standard));
+            slot.PlaceAtBottom(new SeaContainer(_defaultWeight, ContainerType.Standard));
+            slot.PlaceAtBottom(new SeaContainer(_defaultWeight, ContainerType.Standard));
 
             //Act
             int result = slot.TotalWeight;
-            int expected = weight * 3;
+            int expected = _defaultWeight * 3;
 
             //Assert
             Assert.AreEqual(expected, result);

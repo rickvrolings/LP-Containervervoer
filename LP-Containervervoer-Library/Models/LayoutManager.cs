@@ -63,7 +63,7 @@ namespace LP_Containervervoer_Library
                 TryAddContainerToMiddle(container);
             }
 
-            if (container.Placed == false)
+            if (container.Placed == false && Width > 1)
             {
                 TryAddContainerToSide(container, GetSideWithLeastWeight());
             }
