@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LP_Containervervoer_Library
 {
-    public class LayoutManager
+    internal class LayoutManager
     {
         //TODO: How to prevent 0 and negative numbers as parameters
         public int Length { get; private set; }
@@ -58,7 +58,6 @@ namespace LP_Containervervoer_Library
                     } 
                 }
             }
-            
         }
 
         private void TryAddContainer(ISeaContainer container)
@@ -92,12 +91,40 @@ namespace LP_Containervervoer_Library
         {
             foreach (Slot indivudualSlot in colomn)
             {
-                if (indivudualSlot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(indivudualSlot) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot))
+                if (indivudualSlot.CanBePlacedAtBottom(container) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot) 
+                    && CheckValuablesWontBeBlockedTwoWays(container, indivudualSlot, colomn))
                 {
                     indivudualSlot.PlaceAtBottom(container);
                     break;
                 }
             }
+        }
+
+        private bool CheckValuablesWontBeBlockedTwoWays(ISeaContainer container, Slot currentSlot, Slot[] colomn)
+        {
+            if (currentSlot.RelativeSlotYPosition >= 2)
+            {
+                if (colomn[currentSlot.RelativeSlotYPosition - 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+                {
+                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.RelativeSlotYPosition - 1], colomn[currentSlot.RelativeSlotYPosition - 2]);
+                }
+            }
+
+            if(currentSlot.RelativeSlotYPosition <= Length - 3)
+            {
+                if (colomn[currentSlot.RelativeSlotYPosition + 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+                {
+                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.RelativeSlotYPosition + 1], colomn[currentSlot.RelativeSlotYPosition + 2]);
+                }
+            }
+            return true;
+                
+        }
+
+        private bool CompareValuableSlotForBlocking(Slot currentSlot, Slot valuableSlot, Slot blockingSlot)
+        {
+            int indexValuableContainer = valuableSlot.SeaContainers.ToList().IndexOf(valuableSlot.SeaContainers.First(c => c.Type == ContainerType.Valuable));
+            return indexValuableContainer >= blockingSlot.SeaContainers.Count() || indexValuableContainer >= currentSlot.SeaContainers.Count() + 1;
         }
 
         private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer container, Slot slot)
@@ -108,62 +135,12 @@ namespace LP_Containervervoer_Library
             }
             else if(container.Type == ContainerType.Valuable)
             {
-                return slot.SeaContainers.Count() == 0 && !CheckForAdjecentContainersPlaceAtBottom(slot);
+                return slot.SeaContainers.Count() == 0; // there can only be one valuable per slot. 
             }
             else
             {
                 return true;
             }
-        }
-
-        private bool CheckForAdjecentContainersPlaceAtBottom(Slot slot)
-        {
-            bool frontAdjecent = false;
-            bool backAdjecent = false;
-            if (slot.RelativeSlotYPosition > 0)
-            {
-                if(Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition - 1].SeaContainers.Count() > 0)
-                {
-                    frontAdjecent = true;
-                }
-            }
-
-            if (slot.RelativeSlotYPosition < Length - 2)
-            {
-                if (Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition + 1].SeaContainers.Count() > 0)
-                {
-                    backAdjecent = true;
-                }
-            }
-            return frontAdjecent && backAdjecent;
-        }
-        private bool CheckIfContainerWillBlockValuable(Slot currentSlot)
-        {
-            bool frontSave = true;
-            bool backSave = true;
-
-            if(currentSlot.RelativeSlotYPosition > 0)
-            {
-                frontSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition - 1]);
-            }
-
-            if (currentSlot.RelativeSlotYPosition < Length - 1)
-            {
-                backSave = CompareTwoSlotsIfValuableWillBeBlocked(currentSlot, Layout[currentSlot.RelativeSlotXPostion][currentSlot.RelativeSlotYPosition + 1]);
-            }
-
-            return frontSave && backSave ; 
-               
-        }
-
-        private bool CompareTwoSlotsIfValuableWillBeBlocked(Slot currentSlot, Slot otherSlot)
-        {
-            if (otherSlot.SeaContainers.Any(c => c.Type == ContainerType.Valuable))
-            {
-                int indexValuable = otherSlot.SeaContainers.ToList().IndexOf(otherSlot.SeaContainers.First(c => c.Type == ContainerType.Valuable));
-                return indexValuable > currentSlot.SeaContainers.Count();
-            }
-            return true;
         }
 
         private bool IsSlotFrontRow(Slot currentSlot)
