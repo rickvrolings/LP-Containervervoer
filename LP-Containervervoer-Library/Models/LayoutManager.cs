@@ -90,14 +90,14 @@ namespace LP_Containervervoer_Library
 
         private void TryAddContainerToEachSlotInCollection(ISeaContainer container, Slot[] colomn)
         {
-                foreach (Slot indivudualSlot in colomn)
+            foreach (Slot indivudualSlot in colomn)
+            {
+                if (indivudualSlot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(indivudualSlot) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot))
                 {
-                    if (indivudualSlot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(indivudualSlot) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot))
-                    {
-                        indivudualSlot.PlaceAtBottom(container);
-                        break;
-                    }
+                    indivudualSlot.PlaceAtBottom(container);
+                    break;
                 }
+            }
         }
 
         private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer container, Slot slot)
