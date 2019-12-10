@@ -15,7 +15,7 @@ namespace LP_Containervervoer_Library
         public int TotalMaxLoad{ get; private set; }
         public int TotalMinLoad { get { return TotalMaxLoad / 2; } }
 
-        public bool EvenWidth { get; private set; }
+        private bool EvenWidth { get; set; }
 
         private List<ISeaContainer> _notPlacedContainers = new List<ISeaContainer>();
         public IEnumerable<ISeaContainer> NotPlacedContainers { get { return _notPlacedContainers; } }
@@ -41,9 +41,9 @@ namespace LP_Containervervoer_Library
             SetSlotsPlaces(EvenWidth);
         }
 
-        public void GenerateLayout(List<ISeaContainer> containers)
+        public void FillLayout(List<ISeaContainer> containers)
         {
-            if(Width >= 0)
+            if(Width > 0)
             {
                 foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
                 {
@@ -68,7 +68,7 @@ namespace LP_Containervervoer_Library
                 TryAddContainerToMiddle(container);
             }
 
-            if (Width > 1)
+            if (Width > 1 && container.Placed == false)
             {
                 TryAddContainerToSide(container, GetSideWithLeastWeight());
             }
@@ -90,8 +90,6 @@ namespace LP_Containervervoer_Library
 
         private void TryAddContainerToEachSlotInCollection(ISeaContainer container, Slot[] colomn)
         {
-            if (container.Placed == false)
-            {
                 foreach (Slot indivudualSlot in colomn)
                 {
                     if (indivudualSlot.CanBePlacedAtBottom(container) && CheckIfContainerWillBlockValuable(indivudualSlot) && CheckForSpecialRulesPlaceAtBottom(container, indivudualSlot))
@@ -100,7 +98,6 @@ namespace LP_Containervervoer_Library
                         break;
                     }
                 }
-            }
         }
 
         private bool CheckForSpecialRulesPlaceAtBottom(ISeaContainer container, Slot slot)
@@ -121,12 +118,13 @@ namespace LP_Containervervoer_Library
 
         private bool CheckForAdjecentContainersPlaceAtBottom(Slot slot)
         {
-            bool anyAdjecent = false;
+            bool frontAdjecent = false;
+            bool backAdjecent = false;
             if (slot.RelativeSlotYPosition > 0)
             {
                 if(Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition - 1].SeaContainers.Count() > 0)
                 {
-                    anyAdjecent = true;
+                    frontAdjecent = true;
                 }
             }
 
@@ -134,10 +132,10 @@ namespace LP_Containervervoer_Library
             {
                 if (Layout[slot.RelativeSlotXPostion][slot.RelativeSlotYPosition + 1].SeaContainers.Count() > 0)
                 {
-                    anyAdjecent = true;
+                    backAdjecent = true;
                 }
             }
-            return anyAdjecent;
+            return frontAdjecent && backAdjecent;
         }
         private bool CheckIfContainerWillBlockValuable(Slot currentSlot)
         {

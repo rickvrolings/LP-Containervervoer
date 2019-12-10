@@ -17,7 +17,7 @@ namespace LP_Containervervoer_Tests
             int height = 4;
             int length = 6;
 
-            LayoutManager layoutManager = new LayoutManager(length, width, height);
+            LayoutManager layoutManager = new LayoutManager(length, width, height, 999999);
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(width, layoutManager.Layout.Length);
@@ -32,7 +32,7 @@ namespace LP_Containervervoer_Tests
             int height = 1;
             int length = 1;
 
-            LayoutManager layoutManager = new LayoutManager(length, width, height);
+            LayoutManager layoutManager = new LayoutManager(length, width, height, 9999999);
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(width, layoutManager.Layout.Length);
@@ -51,10 +51,10 @@ namespace LP_Containervervoer_Tests
             int height = 1; 
             Ship ship = new Ship(1, 1, weight, weight);
             ISeaContainer con = new SeaContainer(weight, weight, ContainerType.Standard);
-            LayoutManager layMan = new LayoutManager(lenght, width, height);
+            LayoutManager layMan = new LayoutManager(lenght, width, height, 9999999);
 
             //Act
-            layMan.GenerateLayout(new List<ISeaContainer>() { con });
+            layMan.FillLayout(new List<ISeaContainer>() { con });
 
             //Assert
             Assert.IsTrue(con.Placed);

@@ -8,7 +8,7 @@ namespace LP_Containervervoer_App
     class Program
     {
         const int _defaultWeight = 30000;
-        const int _defaulShiptMaxWeight = 30000;
+        const int _defaulShiptMaxWeight = 60000;
         const int _defaultTopLoad = 120000;
         
         static void Main(string[] args)
@@ -16,9 +16,8 @@ namespace LP_Containervervoer_App
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
             Console.WriteLine(" ");
 
-            Ship ship = new Ship(1, 3, 4, _defaulShiptMaxWeight);
+            Ship ship = new Ship(1, 5, 4, 6000000);
             DisplayShipInformation(ship);
-
             Console.WriteLine("Loading Ship...");
             ship.LoadShip(FillerDataOne());
 

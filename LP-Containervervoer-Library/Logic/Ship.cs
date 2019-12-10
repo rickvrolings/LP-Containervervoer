@@ -13,6 +13,7 @@ namespace LP_Containervervoer_Library
 
         public Ship(int width, int lenght, int height, int totalMaxContainerWeight)
         {
+            //argument exception voor 0 <=
             _layoutManager = new LayoutManager(lenght, width, height, totalMaxContainerWeight);
             Sailable = false;
             Reason = "Ship not loaded yet";
@@ -22,7 +23,7 @@ namespace LP_Containervervoer_Library
 
         public void LoadShip(List<ISeaContainer> containers)
         {
-            _layoutManager.GenerateLayout(containers);
+            _layoutManager.FillLayout(containers);
             UpdateSailable();
         }
 
