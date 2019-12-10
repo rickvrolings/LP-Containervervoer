@@ -10,9 +10,8 @@ namespace LP_Containervervoer_Library
         //TODO: How to prevent 0 and negative numbers as parameters
         public int Length { get; private set; }
         public int Width { get; private set; }
-        public int Height { get; private set; }
 
-        public int TotalMaxLoad{ get; private set; }
+        public int TotalMaxLoad { get { return Length * Width * 150000; } } //Got feedback that TotalMaxLoad doesn't have to be a set by user input. Max load per Slot = 150000
         public int TotalMinLoad { get { return TotalMaxLoad / 2; } }
 
         private bool EvenWidth { get; set; }
@@ -31,47 +30,45 @@ namespace LP_Containervervoer_Library
         Slot[][] _right;
         Slot[] _middle;
 
-        public LayoutManager(int length, int width, int height, int maxWeight)
+        public LayoutManager(int length, int width)
         {
-            Length = length;
-            Width = width;
-            Height = height;
-            EvenWidth = width % 2 == 0;
-            TotalMaxLoad = maxWeight;
-            SetSlotsPlaces(EvenWidth);
+            if(width < 1 || length < 1)
+            {
+                throw new ArgumentException("One of the dimensions is lower than 1", "length");
+            }
+            else
+            {
+                Length = length;
+                Width = width;
+                EvenWidth = width % 2 == 0;
+                SetSlotsPlaces(EvenWidth);
+            }
         }
 
         public void FillLayout(List<ISeaContainer> containers)
         {
-            if(Width > 0)
+            foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
             {
-                foreach (ISeaContainer container in containers.OrderBy(c => c.Type).ThenByDescending(c => c.Weight))
-                {
-                    if(TotalWeight + container.Weight <= TotalMaxLoad)
-                    {
-                        TryAddContainer(container);
-                    }
-
-                    if (!container.Placed)
-                    {
-                        _notPlacedContainers.Add(container);
-                    } 
+                if(!TryAddContainer(container))
+                { 
+                    _notPlacedContainers.Add(container);
                 }
             }
         }
 
-        private void TryAddContainer(ISeaContainer container)
+        private bool TryAddContainer(ISeaContainer container)
         {
             if (!EvenWidth)
             {
                 TryAddContainerToMiddle(container);
             }
 
-            if (Width > 1 && container.Placed == false)
+            if (container.Placed == false)
             {
                 TryAddContainerToSide(container, GetSideWithLeastWeight());
             }
-                        
+
+            return container.Placed;
         }
 
         private void TryAddContainerToMiddle(ISeaContainer container)
@@ -118,7 +115,6 @@ namespace LP_Containervervoer_Library
                 }
             }
             return true;
-                
         }
 
         private bool CompareValuableSlotForBlocking(Slot currentSlot, Slot valuableSlot, Slot blockingSlot)
@@ -190,7 +186,6 @@ namespace LP_Containervervoer_Library
             {
                 return 0;
             }
-            
         }
 
         private Slot[][] CombineLayouts(bool even)
@@ -232,9 +227,9 @@ namespace LP_Containervervoer_Library
 
                 for(int y = 0; y < Length; y++)
                 {
-                    _left[x][y] = new Slot(Height, x, y);
+                    _left[x][y] = new Slot(x, y);
 
-                    _right[x][y] = new Slot(Height, x, y);
+                    _right[x][y] = new Slot(x, y);
                 }
             }
         }
@@ -243,7 +238,7 @@ namespace LP_Containervervoer_Library
         {
             for(int i = 0; i < Length; i++)
             {
-                _middle[i] = new Slot(Height, Width/2, i);
+                _middle[i] = new Slot(Width/2, i);
             }
         }
 
@@ -260,13 +255,7 @@ namespace LP_Containervervoer_Library
                 _left = new Slot[Width / 2][];
                 _right = new Slot[Width / 2][];
                 FillLeftRightLayout();
-            }
-            
-            
+            } 
         }
-
-
-
-
     }
 }

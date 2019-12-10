@@ -11,10 +11,13 @@ namespace LP_Containervervoer_Library
         public Slot[][] Layout { get { return _layoutManager.Layout; } }
         private LayoutManager _layoutManager;
 
-        public Ship(int width, int lenght, int height, int totalMaxContainerWeight)
+        public Ship(int width, int lenght)
         {
-            //argument exception voor 0 <=
-            _layoutManager = new LayoutManager(lenght, width, height, totalMaxContainerWeight);
+            if(width < 1 || lenght < 1)
+            {
+                throw new ArgumentException("One of the dimensions is lower than 1", "weight");
+            }
+            _layoutManager = new LayoutManager(lenght, width);
             Sailable = false;
             Reason = "Ship not loaded yet";
         }
