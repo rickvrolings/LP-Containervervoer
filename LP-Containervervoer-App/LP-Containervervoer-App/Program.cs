@@ -14,19 +14,45 @@ namespace LP_Containervervoer_App
         static void Main(string[] args)
         {
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
-            Console.WriteLine(" ");
 
-            Ship ship = new Ship(1, 5);
+            Ship ship = new Ship(6, 5);
             DisplayShipInformation(ship);
+
             Console.WriteLine("Loading Ship...");
             ship.LoadShip(FillerDataOne());
-
             Console.WriteLine("Loading complete:");
-            DisplayShipInformation(ship);
-            DisplayLayout(ship.Layout);
-            DisplayNonPlacedContainers(ship.NotPlacedContainers);
+            DisplayLayoutFromList(ship.Layout);
+
             Console.ReadLine();
         }
+
+        static void DisplayLayoutFromList(IEnumerable<ISlot> slots)
+        {
+            foreach(ISlot slot in slots)
+            {
+                Console.WriteLine("---------------------------------------");
+                Console.WriteLine($"relative: {slot.RelativeSlotXPostion}, {slot.RelativeSlotYPosition}");
+                List <ISeaContainer> containers = slot.SeaContainers.ToList();
+
+                for (int i = slot.SeaContainers.Count() - 1; i >= 0; i--)
+                {
+                    Console.WriteLine(containers[i]);
+                }
+            }
+        }
+
+        // old stuf
+        //Console.WriteLine(" ");
+
+        //    Ship ship = new Ship(1, 5);
+        //DisplayShipInformation(ship);
+        //Console.WriteLine("Loading Ship...");
+        //    ship.LoadShip(FillerDataOne());
+
+        //    Console.WriteLine("Loading complete:");
+        //    DisplayShipInformation(ship);
+        //DisplayLayout(ship.Layout);
+        //DisplayNonPlacedContainers(ship.NotPlacedContainers);
 
         static void DisplayShipInformation(Ship ship)
         {
@@ -37,7 +63,7 @@ namespace LP_Containervervoer_App
         }
 
         static void DisplayLayout(Slot[][] layout)
-        {;
+        {
             for (int x = 0; x < layout.Length; x++)
             {
                 Console.WriteLine("---------------------------------------");

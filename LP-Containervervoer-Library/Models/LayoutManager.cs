@@ -24,7 +24,7 @@ namespace LP_Containervervoer_Library
         public int RightSideWeight { get { return GetWeightFromCollection(_right); } }
         public int TotalWeight { get { return GetWeightFromCollection(Layout); } }
 
-        public Slot[][] Layout { get { return GetCombinedLayout(); } }
+        public ISlot[][] Layout { get { return GetCombinedLayout(); } }
 
         Slot[][] _left;
         Slot[][] _right;
@@ -168,14 +168,14 @@ namespace LP_Containervervoer_Library
             return combined;
         }
 
-        private int GetWeightFromCollection(Slot[][] side)
+        private int GetWeightFromCollection(ISlot[][] side)
         {
             if(side != null)
             {
                 int returnWeight = 0;
-                foreach (Slot[] slotArray in side)
+                foreach (ISlot[] slotArray in side)
                 {
-                    foreach (Slot slot in slotArray)
+                    foreach (ISlot slot in slotArray)
                     {
                         returnWeight += slot.TotalWeight;
                     }
@@ -229,7 +229,7 @@ namespace LP_Containervervoer_Library
                 {
                     _left[x][y] = new Slot(x, y);
 
-                    _right[x][y] = new Slot(x, y);
+                    _right[x][y] = new Slot(EvenWidth? Width / 2 + x : Width / 2 + x + 1, y);
                 }
             }
         }

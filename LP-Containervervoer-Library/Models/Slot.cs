@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace LP_Containervervoer_Library
 { 
-    public class Slot // The word "Stack" was taken in C#. A slot is an available place to stack containers.
+    public class Slot : ISlot // The word "Stack" was taken in C#. A slot is an available place to stack containers.
     {
-        public int TotalWeight => _seaContainers.Sum(c => c.Weight);
+        public int TotalWeight { get { return _seaContainers.Sum(c => c.Weight); } }
         private readonly List<ISeaContainer> _seaContainers;
         public int RelativeSlotXPostion { get; private set; } //relative to the section in wich the slot is containted within the layout, so left, middle or right. 
         public int RelativeSlotYPosition { get; private set; }

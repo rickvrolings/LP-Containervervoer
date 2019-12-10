@@ -8,8 +8,9 @@ namespace LP_Containervervoer_Library
     {        
         public bool Sailable { get; private set; }
         public string Reason { get; private set; }
-        public Slot[][] Layout { get { return _layoutManager.Layout; } }
+        public IEnumerable<ISlot> Layout { get { return Convert2DSLotArrayToIEnumerable(_layoutManager.Layout); } }
         private LayoutManager _layoutManager;
+        public IEnumerable<ISeaContainer> NotPlacedContainers { get { return _layoutManager.NotPlacedContainers; } }
 
         public Ship(int width, int lenght)
         {
@@ -22,12 +23,23 @@ namespace LP_Containervervoer_Library
             Reason = "Ship not loaded yet";
         }
 
-        public IEnumerable<ISeaContainer> NotPlacedContainers { get { return _layoutManager.NotPlacedContainers; } }
-
         public void LoadShip(List<ISeaContainer> containers)
         {
             _layoutManager.FillLayout(containers);
             UpdateSailable();
+        }
+
+        private IEnumerable<ISlot> Convert2DSLotArrayToIEnumerable(ISlot[][] slots)
+        {
+            List<ISlot> returnIEnum = new List<ISlot>();
+            foreach (ISlot[] subArray in slots)
+            {
+                foreach(ISlot individualSlot in subArray)
+                {
+                    returnIEnum.Add(individualSlot);
+                }
+            }
+            return returnIEnum;
         }
 
         private void UpdateSailable()
@@ -43,7 +55,7 @@ namespace LP_Containervervoer_Library
 
             if(_layoutManager.TotalWeight < _layoutManager.TotalMinLoad)
             {
-                if(Sailable = false)
+                if(Sailable == false)
                 {
                     reasonBuilder += ", ";
                 }
@@ -53,7 +65,7 @@ namespace LP_Containervervoer_Library
 
             if(_layoutManager.TotalWeight > _layoutManager.TotalMaxLoad)
             {
-                if (Sailable = false)
+                if (Sailable == false)
                 {
                     reasonBuilder += ", ";
                 }
