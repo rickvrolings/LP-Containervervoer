@@ -10,25 +10,29 @@ namespace LP_Containervervoer_App
         const int _defaultWeight = 30000;
         const int _defaulShiptMaxWeight = 60000;
         const int _defaultTopLoad = 120000;
-        
+
+        static List<ISeaContainer> _currentInput;
+
         static void Main(string[] args)
         {
+            _currentInput = new List<ISeaContainer>()
+            {
+               new SeaContainer(_defaultWeight, ContainerType.Standard)
+            };
+
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
 
-            Ship ship = new Ship(6, 5);
+            Ship ship = new Ship(16, 1);
             DisplayShipInformation(ship);
 
             Console.WriteLine("Loading Ship...");
-            ship.LoadShip(new List<ISeaContainer>()
-            {
-                new SeaContainer(4000, ContainerType.Standard)
-            }) ;
+            ship.Load(_currentInput);
             Console.WriteLine("Loading complete:");
             DisplayShipInformation(ship);
 
             DisplayLayoutFromList(ship.Layout);
             DisplayNonPlacedContainers(ship.NotPlacedContainers);
-
+            
             Console.ReadLine();
         }
 
@@ -90,7 +94,7 @@ namespace LP_Containervervoer_App
         static void DisplayNonPlacedContainers(IEnumerable<ISeaContainer> nonContainers)
         {
             Console.WriteLine("Here are the containers that are not placed:");
-            Console.WriteLine($"Number of containers input: {FillerDataOne().Count}, Numer of containers left over: {nonContainers.Count()}");
+            Console.WriteLine($"Number of containers input: {_currentInput.Count}, Numer of containers left over: {nonContainers.Count()}");
             foreach(ISeaContainer container in nonContainers)
             {
                 Console.WriteLine(container);

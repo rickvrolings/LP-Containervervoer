@@ -99,7 +99,5 @@ namespace LP_Containervervoer_Tests
             Assert.AreEqual(expected, result);
         }
 
-        
-
     }
 }

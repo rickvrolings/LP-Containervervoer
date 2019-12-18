@@ -80,11 +80,14 @@ namespace LP_Containervervoer_Library
         {
             foreach (Slot[] slotArray in side)
             {
-                TryAddContainerToEachSlotInCollection(container, slotArray);
+                if(TryAddContainerToEachSlotInCollection(container, slotArray))
+                {
+                    break;
+                }
             }
         }
 
-        private void TryAddContainerToEachSlotInCollection(ISeaContainer container, Slot[] colomn)
+        private bool TryAddContainerToEachSlotInCollection(ISeaContainer container, Slot[] colomn)
         {
             foreach (Slot indivudualSlot in colomn)
             {
@@ -92,9 +95,10 @@ namespace LP_Containervervoer_Library
                     && CheckValuablesWontBeBlockedTwoWays(container, indivudualSlot, colomn))
                 {
                     indivudualSlot.PlaceAtBottom(container);
-                    break;
+                    return container.Placed; ;
                 }
             }
+            return container.Placed;
         }
 
         private bool CheckValuablesWontBeBlockedTwoWays(ISeaContainer container, Slot currentSlot, Slot[] colomn)

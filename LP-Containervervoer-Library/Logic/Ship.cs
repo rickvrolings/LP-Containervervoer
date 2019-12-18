@@ -29,7 +29,7 @@ namespace LP_Containervervoer_Library
             Reason = "Ship not loaded yet";
         }
 
-        public void LoadShip(List<ISeaContainer> containers)
+        public void Load(List<ISeaContainer> containers)
         {
             _layoutManager.FillLayout(containers);
             UpdateSailable();
