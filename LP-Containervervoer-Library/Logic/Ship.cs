@@ -81,7 +81,7 @@ namespace LP_Containervervoer_Library
 
             if (Sailable)
             {
-                reasonBuilder += "Everything is in order";
+                reasonBuilder = "Everything is in order";
             }
             reasonBuilder += ".";
             Reason = reasonBuilder;

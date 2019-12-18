@@ -22,7 +22,7 @@ namespace LP_Containervervoer_App
 
             Console.WriteLine("This program serves no other purpuse than testing and showing how the referenced library works.");
 
-            Ship ship = new Ship(16, 1);
+            Ship ship = new Ship(15, 1);
             DisplayShipInformation(ship);
 
             Console.WriteLine("Loading Ship...");

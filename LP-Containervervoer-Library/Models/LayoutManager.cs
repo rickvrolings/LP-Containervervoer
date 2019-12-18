@@ -58,7 +58,7 @@ namespace LP_Containervervoer_Library
 
         private bool TryAddContainer(ISeaContainer container)
         {
-            if (!EvenWidth)
+            if (container.Placed == false && !EvenWidth)
             {
                 TryAddContainerToMiddle(container);
             }
