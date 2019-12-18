@@ -99,19 +99,19 @@ namespace LP_Containervervoer_Library
 
         private bool CheckValuablesWontBeBlockedTwoWays(ISeaContainer container, Slot currentSlot, Slot[] colomn)
         {
-            if (currentSlot.RelativeSlotYPosition >= 2)
+            if (currentSlot.YPosition >= 2)
             {
-                if (colomn[currentSlot.RelativeSlotYPosition - 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+                if (colomn[currentSlot.YPosition - 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
                 {
-                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.RelativeSlotYPosition - 1], colomn[currentSlot.RelativeSlotYPosition - 2]);
+                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.YPosition - 1], colomn[currentSlot.YPosition - 2]);
                 }
             }
 
-            if(currentSlot.RelativeSlotYPosition <= Length - 3)
+            if(currentSlot.YPosition <= Length - 3)
             {
-                if (colomn[currentSlot.RelativeSlotYPosition + 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
+                if (colomn[currentSlot.YPosition + 1].SeaContainers.Any(c => c.Type == ContainerType.Valuable))
                 {
-                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.RelativeSlotYPosition + 1], colomn[currentSlot.RelativeSlotYPosition + 2]);
+                    return CompareValuableSlotForBlocking(currentSlot, colomn[currentSlot.YPosition + 1], colomn[currentSlot.YPosition + 2]);
                 }
             }
             return true;
@@ -141,7 +141,7 @@ namespace LP_Containervervoer_Library
 
         private bool IsSlotFrontRow(Slot currentSlot)
         {
-            return currentSlot.RelativeSlotYPosition == 0;
+            return currentSlot.YPosition == 0;
         }
 
         private Slot[][] GetSideWithLeastWeight()

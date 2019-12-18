@@ -7,15 +7,15 @@ namespace LP_Containervervoer_Library
     {
         public int TotalWeight { get { return _seaContainers.Sum(c => c.Weight); } }
         private readonly List<ISeaContainer> _seaContainers;
-        public int RelativeSlotXPostion { get; private set; } //relative to the section in wich the slot is containted within the layout, so left, middle or right. 
-        public int RelativeSlotYPosition { get; private set; }
+        public int XPostion { get; private set; } //relative to the section in wich the slot is containted within the layout, so left, middle or right. 
+        public int YPosition { get; private set; }
         public IEnumerable<ISeaContainer> SeaContainers { get { return _seaContainers; } }
 
         public Slot(int xPosition, int yPosition)
         {
             _seaContainers = new List<ISeaContainer>();
-            RelativeSlotXPostion = xPosition;
-            RelativeSlotYPosition = yPosition;
+            XPostion = xPosition;
+            YPosition = yPosition;
         }
 
         public void PlaceAtBottom(ISeaContainer container)

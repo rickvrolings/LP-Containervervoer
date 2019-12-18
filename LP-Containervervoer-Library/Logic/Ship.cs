@@ -10,15 +10,21 @@ namespace LP_Containervervoer_Library
         public string Reason { get; private set; }
         public IEnumerable<ISlot> Layout { get { return Convert2DSLotArrayToIEnumerable(_layoutManager.Layout); } }
         private LayoutManager _layoutManager;
+
+        public int Width { get; private set; }
+        public int Length { get; private set; }
+
         public IEnumerable<ISeaContainer> NotPlacedContainers { get { return _layoutManager.NotPlacedContainers; } }
 
-        public Ship(int width, int lenght)
+        public Ship(int width, int length)
         {
-            if(width < 1 || lenght < 1)
+            if(width < 1 || length < 1)
             {
-                throw new ArgumentException("One of the dimensions is lower than 1", "weight");
+                throw new ArgumentException("One of the dimensions is lower than 1", "width, length");
             }
-            _layoutManager = new LayoutManager(lenght, width);
+            _layoutManager = new LayoutManager(length, width);
+            Width = width;
+            Length = length;
             Sailable = false;
             Reason = "Ship not loaded yet";
         }

@@ -19,7 +19,10 @@ namespace LP_Containervervoer_App
             DisplayShipInformation(ship);
 
             Console.WriteLine("Loading Ship...");
-            ship.LoadShip(FillerDataOne());
+            ship.LoadShip(new List<ISeaContainer>()
+            {
+                new SeaContainer(4000, ContainerType.Standard)
+            }) ;
             Console.WriteLine("Loading complete:");
             DisplayShipInformation(ship);
 
@@ -29,12 +32,43 @@ namespace LP_Containervervoer_App
             Console.ReadLine();
         }
 
+        //static string GenerateLink(Ship ship) 
+        //{
+        //    //System.Diagnostics.Process.Start("http://www.google.com");
+
+        //    string url = $"https://i872272core.venus.fhict.nl/ContainerVisualizer/index.html" + $"?length={ship.Length}&width={ship.Width}";
+        //    string stacks = "&stacks=";
+        //    string weight = "&weights=";
+
+        //    List<ISlot> layout = ship.Layout.ToList();
+        //    int lastRow = 0;
+        //    foreach(ISlot slot in layout)
+        //    {
+        //        foreach (ISeaContainer cont in slot.SeaContainers)
+        //        {
+        //            if (cont.Type == ContainerType.Standard)
+        //            {
+        //                stacks += ",1";
+        //            }else if (cont.Type == ContainerType.Valuable)
+        //            {
+        //                stacks += ",2";
+        //            }
+        //            else if(cont.Type == ContainerType.Cool)
+        //            {
+        //                stacks += ",3";
+        //            }
+        //        }
+        //    }
+        //    return url;
+        //}
+
+
         static void DisplayLayoutFromList(IEnumerable<ISlot> slots)
         {
             foreach(ISlot slot in slots)
             {
                 Console.WriteLine("---------------------------------------");
-                Console.WriteLine($"relative: {slot.RelativeSlotXPostion}, {slot.RelativeSlotYPosition}");
+                Console.WriteLine($"Position (X, Y): {slot.XPostion}, {slot.YPosition}");
                 List <ISeaContainer> containers = slot.SeaContainers.ToList();
 
                 for (int i = slot.SeaContainers.Count() - 1; i >= 0; i--)
